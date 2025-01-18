@@ -1,20 +1,19 @@
 General set up:
-- Download stock prices dataset
-- Decide on a specific stock / few stocks
-    EX: uses microsoft MSFT, general method:
-    Download from yahoo finance
-- Explore data
-- Setup dataset to predict future prices
-  - Test machine learning model
-- Set up back testing engine
-  - Improve accuracy
-  - Document future directions to further improve technique
-- Create a machine learning model
-  - Predict future stock prices (tomorrows closing price using todays data)
-  - Buy stock if model predicts price increase
-  - Do nothing if price will go down
-  - Maximize true positives: days model predicts price will go up and it actually foes
-  - Precision as error metric: true + / (False + plus true +)
-- Think about application to the real world
-  - Error metric, algorithm
-  - Ex: stock trading wants high profit and minimal risk
+
+1. Download Amazon stock prices dataset
+
+2. Data preprocessing
+- Cleaning, evaluating, manipulating data so the model will be able to utilize the output
+- Handle missing values, outliers, duplicates
+- Improve quality of data and normalize it
+- Exploratory data analysis to find trends
+
+3. Create training and test sets
+
+4. Create initial ML model -- Time Series
+- LSTM 
+- Random Forest
+- 
+
+5. 
+ 
