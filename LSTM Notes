@@ -1,0 +1,48 @@
+## LSTM
+- analyze complex historical data using memory
+- recurrent neural network that introduces parameters in RNN blocks every step
+- contain variables called gates. gate values are determined based on information at that particular step, and prior gate information. this value is then multiplied by different variables of interest
+- time series data: sequence of values collected at regular time intervals analyzed to track changes over time
+
+## LSTM Architecture
+- memory cell: contains gates, allow LSTM to remember and use past data
+    - forget gate: decides what information to forget from the previous cell state
+    - input gate: decides what new information to store in the current state cell
+    - output gate: controls what information from the current cell state to output
+
+- has ability to capture complex patterns and long term dependencies, making them valuable for stock prediction.
+
+
+# Plan
+
+## Feature Engineering
+- extract day, month, year and make new columns
+- add open-close, low-high, and target columns
+    - check if target is balanced or not using pie chart
+    - check correlation between open, high, low, and close using heatmap
+-------------------------------------------------------------
+## Data Preprocessing and Normalization
+- select features to train the model on
+- transform values using fit transform
+- scale data using min max scaler
+- use 80% for training, 20% for testing
+
+## Splitting the Data
+- split data 
+
+## Implement Model
+- use keras models sequential
+- use keras layers dense, dropout, lstm, bidirectional
+    - 2 lstm layers, implement drop out in between for regularization
+    - number of units in parameter = 50
+    - MSE = metric
+
+## Data Visualization
+- use inverse transformation to get back to the original value with the transformed function 
+- actual vs predicted open and close price graphs
+
+## Challenges
+- data quality and nosie: unpredictable events (social media sentiment, news) difficult to differentiate and capture 
+- limited data: our model has limited data available, and it is generally harder to predict them accurately for new companies. 
+- overfitting: risk of overfitting means it performs well on past data but does not on future data.
+
