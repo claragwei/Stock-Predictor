@@ -15,11 +15,22 @@ General set up:
 - Random Forest
 - SVM
 
-5. New group of 2, familiarize each other with your model and get it running on your machine
+5. New group of 2, familiarize each other with your ML model and get it running on your machine
+- New models: XGBClassifier, Logistic regression
 
-6. Validation / testing
+6. Model evaluation: validation / testing / plotting / comparison with each other and actual stock prices
+- Calculate RMSE
+- Best hyperparameters 
+- Plot confusion matrix
 
-7. Write report
+7. Write functions to predict future stock prices for each model
+- For each model, choose best model and predict the next 10 days
+- Calculate accuracy
+- Plot actual vs predicted prices
 
-8. Create presentation, practice
+8. Choose best model(s)
+
+9. Write report
+
+10. Create presentation, practice, present!
  
