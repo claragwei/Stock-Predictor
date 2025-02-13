@@ -10,10 +10,16 @@ General set up:
 
 3. Create training and test sets
 
-4. Create initial ML model -- Time Series
+4. Create initial ML model -- in groups of 2
 - LSTM 
 - Random Forest
-- 
+- SVM
 
-5. 
+5. New group of 2, familiarize each other with your model and get it running on your machine
+
+6. Validation / testing
+
+7. Write report
+
+8. Create presentation, practice
  
