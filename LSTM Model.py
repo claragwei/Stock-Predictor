@@ -10,11 +10,12 @@ from keras.models import Sequential
 from keras.layers import LSTM, Dense, Dropout
 from keras.optimizers import Adam
 from sklearn.metrics import mean_squared_error
+from sklearn.preprocessing import MinMaxScaler
 
 
 def preprocessing(df):
     """
-    Data preprocessing
+    Data preprocessing to clean and normalize stock price
     """
     # Reverse the rows so the dates are in order
     df_reversed = df.iloc[::-1]
@@ -32,14 +33,15 @@ def preprocessing(df):
     close = df_reversed['Close/Last'].values.reshape(-1, 1)
 
     # Normalize the data (values are now between 0 and 1)
-    close_normalized = close / np.max(close)
+    scaler = MinMaxScaler(feature_range=(0, 1))
+    close_normalized = scaler.fit_transform(close)
 
-    # Split data into 20% training and 20% test sets 
+    # Split data into 80% training and 20% test sets 
     train_size = int(len(close_normalized) * 0.8)
     train_data = close_normalized[:train_size]
     test_data = close_normalized[train_size:]
 
-    return df_reversed, close_normalized, train_data, test_data
+    return df_reversed, close_normalized, train_data, test_data, scaler
 
 
 # LSTM model function
@@ -50,6 +52,9 @@ def lstm_model(units, activation, learning_rate):
     model = Sequential()
     model.add(LSTM(units = units, activation = activation, input_shape=(1, 1)))
     
+    # Dropout layer to prevent overfitting
+    model.add(Dropout(0.2))
+
     # Dense layer for output
     model.add(Dense(units=1))
 
@@ -65,7 +70,6 @@ def train_and_tune(train_data, test_data):
     """
     Trains model and performs hyperparameter tuning
     """
-
     # Define hyperparameters for tuning
     lstm_units = [50, 100, 200]
     lstm_activations = ['relu', 'tanh']
@@ -97,43 +101,57 @@ def train_and_tune(train_data, test_data):
     
     return best_lstm_model, best_rmse
 
-    # # Predict on the entire dataset using the best LSTM model
-    # all_lstm_predictions = best_lstm_model.predict(close_normalized[:-1].reshape(-1, 1, 1)).flatten()
-
-    # # Inverse normalize the LSTM predictions
-    # all_lstm_predictions = all_lstm_predictions * np.max(close)
-
-
-# Function to calculate RMSE
 def rmse(y_true, y_pred):
+    """
+    Function to calculate RMSE
+    """
     return np.sqrt(mean_squared_error(y_true, y_pred))
 
+def predict_future(model, last_known, days, scaler):
+    """
+    Generates future predictions based on the trained model
+    """
+    predictions = []
+    current_input = last_known.reshape(1, 1, 1)
+
+    for _ in range(days):
+        predicted_value = model.predict(current_input)[0, 0]
+        predictions.append(predicted_value)
+        current_input = np.array([[predicted_value]]).reshape(1, 1, 1)
+
+    return scaler.inverse_transform(np.array(predictions).reshape(-1, 1)).flatten()
+
 def evaluate_model(model, actual_prices, predictions):
-    """Calculate and return model performance metrics"""
+    """
+    Calculate and return model performance metrics
+    """
     percentage_error = np.abs((actual_prices[1:] - predictions) / actual_prices[1:] * 100)
     return {
         'mean_error': np.mean(percentage_error),
         'last_5_predictions': list(zip(actual_prices[-5:], predictions[-5:]))
     }
 
-def plot_results(actual_prices, predictions):
-    """Create and show the prediction visualization"""
+def plot_results(actual_prices, predictions, future_predictions = None):
+    """
+    Create and show actual vs predicted prices
+    """
     plt.figure(figsize=(12, 6))
     plt.plot(actual_prices[1:], label='Actual Prices')
     plt.plot(predictions, label='Predicted Prices')
+    plt.axvline(x=len(predictions), color='r', linestyle='--', label='Future Predictions Start')
+    plt.plot(range(len(predictions), len(predictions) + len(future_predictions)), future_predictions, label='Future Predictions', linestyle='dashed')
     plt.title('Amazon Stock Price Prediction')
     plt.xlabel('Time')
     plt.ylabel('Price ($)')
     plt.legend()
     plt.show()
 
-
 if __name__ == "__main__":
    # Load data
     df = pd.read_csv('/Users/clarawei/school/Stock-Predictor/Stock-Predictor/amazon.csv')
     
     # Preprocess
-    df_reversed, close_normalized, train_data, test_data = preprocessing(df)
+    df_reversed, close_normalized, train_data, test_data, scaler = preprocessing(df)
         
     # Get close values from df_reversed for later use
     close = df_reversed['Close/Last'].values.reshape(-1, 1)
@@ -143,17 +161,24 @@ if __name__ == "__main__":
     
     # Make predictions
     all_lstm_predictions = best_model.predict(close_normalized[:-1].reshape(-1, 1, 1)).flatten()
-    all_lstm_predictions = all_lstm_predictions * np.max(close)
+    all_lstm_predictions = scaler.inverse_transform(all_lstm_predictions.reshape(-1, 1)).flatten()
+    
+    # Predict on next 30 days
+    future_steps = 30
+    future_predictions = predict_future(best_model, close_normalized, future_steps)
     
     # Evaluate
     metrics = evaluate_model(best_model, close.flatten(), all_lstm_predictions)
     
+    future_days = 10
+    future_predictions = predict_future(best_model, close_normalized[-1], future_days, scaler)
+
     # Print results
     print(f"Best RMSE: {best_rmse}")
     print(f"Average prediction error: {metrics['mean_error']:.2f}%")
     print("\nLast 5 predictions vs actual:")
     for actual, pred in metrics['last_5_predictions']:
         print(f"Actual: ${actual:.2f}, Predicted: ${pred:.2f}")
-        
-    # Visualize
-    plot_results(close.flatten(), all_lstm_predictions)
+
+    print(f"Best RMSE: {best_rmse}")
+    plot_results(close.flatten(), all_lstm_predictions, future_predictions)

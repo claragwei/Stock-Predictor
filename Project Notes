@@ -16,12 +16,12 @@ General set up:
 - SVM
 
 5. New group of 2, familiarize each other with your ML model and get it running on your machine
-- New models: XGBClassifier, Logistic regression
 
 6. Model evaluation: validation / testing / plotting / comparison with each other and actual stock prices
 - Calculate RMSE
 - Best hyperparameters 
 - Plot confusion matrix
+- Figure out how to prevent overfitting of model
 
 7. Write functions to predict future stock prices for each model
 - For each model, choose best model and predict the next 10 days

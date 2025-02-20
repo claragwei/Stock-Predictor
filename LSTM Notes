@@ -12,6 +12,9 @@
 
 - has ability to capture complex patterns and long term dependencies, making them valuable for stock prediction.
 
+- lstm unit: 3 gates and one memory cell
+
+
 
 # Plan
 
@@ -28,21 +31,38 @@
 - use 80% for training, 20% for testing
 
 ## Splitting the Data
-- split data 
+- split data into training, validation, and test sets
+- validation is necessary to assess how well the model can generalize on unseen data prior to testing on test set -- done to avoid overfitting and for hyperparameter tuning
+    - overfitting is when the model learns patterns specific to the training set and cannot generalize to unseen data, and LSTM models are prone to overfitting
+    - hyperparameter tuning lets us compare configurations (LSTM units, learning rates, activation functions) and we can select the best model based on validation performance rather than training
 
 ## Implement Model
 - use keras models sequential
-- use keras layers dense, dropout, lstm, bidirectional
+    - layers are added one after another, in a sequence
+- use keras layers,  control # units, activation, input shape, mse, dense, adam optimizer, dropout
     - 2 lstm layers, implement drop out in between for regularization
-    - number of units in parameter = 50
-    - MSE = metric
+    - number of units in parameter = 50, which is the number of LSTM neurons or memory cells 
+    - activation: controls how signals flow, relu or tanh
+    - input shape(1,1) = number of time steps, number of features
+    - MSE = metric for mean squared error, measures how far predictions are from actual prices 
+    - dense: output layer, units = 1 produces a single numerical output, taking the hidden state of LSTM and map to final price prediction
+    - adam optimizer: adjust weights during training to min error
+    - dropout: randomly drops a fraction of neurons during training (but not predicting) to prevent overfitting
+
+- training
+    - input = past stock price
+    - output = next days stock price
+    - shape: (batch size, time steps, features)
+        - each batch has multiple samples
+        - each sample looks at one day
+        - each day has one feature
 
 ## Data Visualization
 - use inverse transformation to get back to the original value with the transformed function 
 - actual vs predicted open and close price graphs
 
 ## Challenges
-- data quality and nosie: unpredictable events (social media sentiment, news) difficult to differentiate and capture 
+- data quality and noise: unpredictable events (social media sentiment, news) difficult to differentiate and capture 
 - limited data: our model has limited data available, and it is generally harder to predict them accurately for new companies. 
 - overfitting: risk of overfitting means it performs well on past data but does not on future data.
 
