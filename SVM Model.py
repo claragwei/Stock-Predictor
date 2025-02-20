@@ -96,7 +96,7 @@ plt.tight_layout() #prevent labels from overlapping
 plt.legend()
 plt.show()
 
-#Test the model for accuracy
+#Test the model for accuracy (regression)
 #Displays the accuracy of the model (the r^2 score, or coefficient of determination). The closer to 1.0, the more accurate the model
 accuracy = svm_model.score(x_test, y_test)
-print('Model accuracy:', accuracy)
+print('Model accuracy score:', accuracy)
