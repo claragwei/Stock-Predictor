@@ -1,5 +1,4 @@
-
-# Import dependencies/libraries
+#Import dependencies/libraries
 import os
 import pandas as pd 
 import matplotlib.pyplot as plt
@@ -14,23 +13,23 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error
 df = pd.read_csv('/Stock-Predictor/amazon.csv')
 df.head()
 
-# Get info
+# Get data info
 df.shape
 df.describe()
 df.info()
 
 #Clean data
-#convert the 'Date' column from an object type to a datetime type in a pandas DataFrame
+#Convert the 'Date' column from an object type to a datetime type in a pandas DataFrame
 df['Date'] = pd.to_datetime(df['Date'])
 df = df.sort_values(by='Date')
 
 #Determine the inputs and target output
 price_columns = ["Open", "High", "Low", "Close/Last"]
 
-# Remove the dollar sign and convert to float for all price columns
+#Remove the dollar sign and convert to float for all price columns
 df[price_columns] = df[price_columns].replace(r'\$', '', regex=True).astype(float)
 
-# Categorize the columns based on what we want
+#Categorize the columns based on what we want
 inputs = ["Volume", "Open", "High", "Low"]
 target = ["Close/Last"]
 
@@ -42,7 +41,7 @@ y = y.values.ravel()
 
 print(len(x), len(y))
 
-#Make the training and testing sets for ml
+#Make the training and testing sets for machine learning
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.2, shuffle = False)
 
 #Scale the data (this one is small but if for future needs)
@@ -50,8 +49,8 @@ scale = MinMaxScaler()
 x_train_scaled = scale.fit_transform(x_train)
 x_test_scaled = scale.transform(x_test)
 
-#train the model
-svm_model = SVR(kernel='rbf', C=100, gamma=0.2, epsilon=0.1) 
+#Train the model
+svm_model = SVR(kernel = 'rbf', C = 100, gamma = 0.2, epsilon = 0.1) 
 #support vector regression
 #epsilon-insensitive loss function (ignores errors smaller than a specified threshold)
 #kernel rbf (radial basis function) used to capture non-linearity in the data
@@ -73,11 +72,16 @@ rmse = np.sqrt(mse)
 
 #Plot it
 #plot the predicted values vs the actual values to see accuracy
-plt.figure(figsize=(10,5))
-plt.plot(y_test, label = "Actual Prices", color= 'blue')
-plt.plot(y_pred, label= "Predicted Prices", color='red', linestyle="dashed")
+plt.figure(figsize = (10, 5))
+plt.plot(y_test, label = "Actual Prices", color = 'blue')
+plt.plot(y_pred, label = "Predicted Prices", color = 'red', linestyle = "dashed")
 plt.xlabel("Time")
 plt.ylabel("Stock Price")
 plt.title("SVM for Amazon Stock Price Prediction")
 plt.legend()
 plt.show()
+
+#Test the model for accuracy
+#Displays the accuracy of the model (the r^2 score, or coefficient of determination). The closer to 1.0, the more accurate the model
+accuracy = svm_model.score(x_test, y_test)
+print('Model accuracy:', accuracy)
