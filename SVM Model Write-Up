@@ -1,7 +1,8 @@
 # SVM Model Write-Up
-- Uses support vectors to identify patterns in data and make predictions bsaed off it. 
-- Uses boundaries by finding the best decision boundary between two groups of data
+- Uses support vectors to identify patterns in data and make predictions based off it
+- Uses boundaries by finding the best decision boundary between groups of data
 - Maximizes margin between boundary and support vectors (data points closest to decision boundary)
+- Uses regression to predict future values for stock prices
 - Predicts and plots future stock prices
 
 ## Results of testing the SVM Model:
