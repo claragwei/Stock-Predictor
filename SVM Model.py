@@ -19,15 +19,27 @@ df.describe()
 df.info()
 
 #Clean data
+
+#reversing date
+# Reverse the rows so the dates are in order
+df_reversed = df.iloc[::-1]
+
+# Reset index to maintain the correct sequential order 
+df_reversed.reset_index(drop=True, inplace=True)
+
+# View the reversed df to ensure the order is correct
+df_reversed.head()
+
 #Convert the 'Date' column from an object type to a datetime type in a pandas DataFrame
-df['Date'] = pd.to_datetime(df['Date'])
-df = df.sort_values(by='Date')
+df_reversed['Date'] = pd.to_datetime(df_reversed['Date'])
+df_reversed = df_reversed.set_index('Date')
+df_reversed = df_reversed.sort_values(by='Date')
 
 #Determine the inputs and target output
 price_columns = ["Open", "High", "Low", "Close/Last"]
 
 #Remove the dollar sign and convert to float for all price columns
-df[price_columns] = df[price_columns].replace(r'\$', '', regex=True).astype(float)
+df_reversed[price_columns] = df_reversed[price_columns].replace(r'\$', '', regex=True).astype(float)
 
 #Categorize the columns based on what we want
 inputs = ["Volume", "Open", "High", "Low"]
@@ -38,8 +50,6 @@ y = df[target]
 
 #Error from training model... y needs to be flattened with ravel()
 y = y.values.ravel()
-
-print(len(x), len(y))
 
 #Make the training and testing sets for machine learning
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.2, shuffle = False)
@@ -72,12 +82,17 @@ rmse = np.sqrt(mse)
 
 #Plot it
 #plot the predicted values vs the actual values to see accuracy
-plt.figure(figsize = (10, 5))
-plt.plot(y_test, label = "Actual Prices", color = 'blue')
-plt.plot(y_pred, label = "Predicted Prices", color = 'red', linestyle = "dashed")
-plt.xlabel("Time")
+plt.figure(figsize=(10,5))
+plt.plot( x_test.index, y_test, label = "Actual Prices", color= 'blue', linewidth=2)
+plt.plot( x_test.index, y_pred, label= "Predicted Prices", color='red', linestyle="dashed")
+plt.xlabel("Date")
 plt.ylabel("Stock Price")
 plt.title("SVM for Amazon Stock Price Prediction")
+#format the dates
+plt.xticks(rotation=45, ha='right', fontsize=10)
+# plt.xticks(ticks=range(0, len(df_reversed['Date']), 100), rotation=45)
+plt.yticks(fontsize=10)
+plt.tight_layout() #prevent labels from overlapping
 plt.legend()
 plt.show()
 
