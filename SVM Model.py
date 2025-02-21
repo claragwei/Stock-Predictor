@@ -98,6 +98,7 @@ rmse = np.sqrt(mse)
 accuracy = svm_model.score(x_test, y_test)
 
 #Prints model evaluation details
-print('Mean absolute error:', mae)
-print('Mean squared error:', mse)
-print('Model accuracy score:', accuracy)
+print('Mean absolute error: ', mae)
+print('Mean squared error: ', mse)
+print('Root mean squared error: ', rmse)
+print('Model accuracy score: ', accuracy)
