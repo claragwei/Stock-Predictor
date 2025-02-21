@@ -2,17 +2,20 @@
 - Uses support vectors to identify patterns in data and make predictions based off it
 - Uses boundaries by finding the best decision boundary between groups of data
 - Maximizes margin between boundary and support vectors (data points closest to decision boundary)
+- Plots future stock prices
 - Uses regression to predict future values for stock prices
-- Predicts and plots future stock prices
+- We chose the regression model because it was more ideal for predicting future data, as opposed to classification which was more ideal for grouping/categorizing data
 
-## Our SVM Model cleans data by reversing/converting the data in rows & columns to put it in order and optimize it for data analysis.
+Cleaning Data
+- Our SVM Model cleans data by reversing/converting the data in rows & columns to put it in order and optimize it for data analysis.
 Splitting Data
-- Next, it splits the data into training and testing sets, and scales it.
+- Next, it splits the data into training and testing sets, and scales it. It uses the first 80% of the data to test and the remaining 20% to test. 
 Training the Model
-- 
+- Model is trained using support vector regression
 Predicting & Plotting
 - The model makes predictions based on the testing data, and plots the predicted values vs. the actual values to display the accuracy of the model on a graph.
 Evaluation
-- Next, we evaluate the data using several metrics (mean absolute error, mean squared error, mean error, coefficient of determination).
+- Next, we evaluate the accuracy of the model's predictions using several metrics (mean absolute error, mean squared error, mean error, coefficient of determination).
 
 ## Results of testing the SVM Model:
+
