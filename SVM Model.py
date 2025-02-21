@@ -13,38 +13,35 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error
 df = pd.read_csv('/Stock-Predictor/amazon.csv')
 df.head()
 
-# Get data info
+#Get data info
 df.shape
 df.describe()
 df.info()
 
-#Clean data
-
-#reversing date
-# Reverse the rows so the dates are in order
+#Cleaning the data
+#Reverse the rows so the dates are in order
 df_reversed = df.iloc[::-1]
 
-# Reset index to maintain the correct sequential order 
-df_reversed.reset_index(drop=True, inplace=True)
+#Reset index to maintain the correct sequential order 
+df_reversed.reset_index(drop = True, inplace = True)
 
-# View the reversed df to ensure the order is correct
+#View the reversed df to ensure the order is correct
 df_reversed.head()
 
 #Convert the 'Date' column from an object type to a datetime type in a pandas DataFrame
 df_reversed['Date'] = pd.to_datetime(df_reversed['Date'])
 df_reversed = df_reversed.set_index('Date')
-df_reversed = df_reversed.sort_values(by='Date')
+df_reversed = df_reversed.sort_values(by = 'Date')
 
 #Determine the inputs and target output
 price_columns = ["Open", "High", "Low", "Close/Last"]
 
 #Remove the dollar sign and convert to float for all price columns
-df_reversed[price_columns] = df_reversed[price_columns].replace(r'\$', '', regex=True).astype(float)
+df_reversed[price_columns] = df_reversed[price_columns].replace(r'\$', '', regex=  True).astype(float)
 
 #Categorize the columns based on what we want
 inputs = ["Volume", "Open", "High", "Low"]
 target = ["Close/Last"]
-
 x = df[inputs]
 y = df[target]
 
@@ -69,22 +66,22 @@ svm_model = SVR(kernel = 'rbf', C = 100, gamma = 0.2, epsilon = 0.1)
 #gamma controls how much influence a single data point has (high = focus on nearby points, low = consider broader patterns)
 svm_model.fit(x_train_scaled, y_train) #model learns from the training data and finds 
 
-#Make Predictions
+#Make predictions
 y_pred = svm_model.predict(x_test_scaled)
 
-#Plot it
-#plot the predicted values vs the actual values to see accuracy
+#Plot the predicted values vs the actual values to see accuracy
 plt.figure(figsize=(10,5))
-plt.plot( x_test.index, y_test, label = "Actual Prices", color= 'blue', linewidth=2)
-plt.plot( x_test.index, y_pred, label= "Predicted Prices", color='red', linestyle="dashed")
+plt.plot( x_test.index, y_test, label = "Actual Prices", color = 'blue', linewidth = 2)
+plt.plot( x_test.index, y_pred, label= "Predicted Prices", color = 'red', linestyle = "dashed")
 plt.xlabel("Date")
 plt.ylabel("Stock Price")
 plt.title("SVM for Amazon Stock Price Prediction")
-#format the dates
-plt.xticks(rotation=45, ha='right', fontsize=10)
-# plt.xticks(ticks=range(0, len(df_reversed['Date']), 100), rotation=45)
-plt.yticks(fontsize=10)
-plt.tight_layout() #prevent labels from overlapping
+
+#Format the dates
+plt.xticks(rotation = 45, ha = 'right', fontsize = 10)
+#plt.xticks(ticks = range(0, len(df_reversed['Date']), 100), rotation = 45)
+plt.yticks(fontsize = 10)
+plt.tight_layout() #Prevents labels from overlapping
 plt.legend()
 plt.show()
 
