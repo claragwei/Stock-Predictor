@@ -22,7 +22,5 @@ Predicting & Plotting
 Evaluation
 - Evaluates the accuracy of the model's predictions using several metrics (mean absolute error, mean squared error, mean error, coefficient of determination).
 
-##Real-World Application
-
 ##Results of testing the SVM Model
-
+- Add plotted graph here
