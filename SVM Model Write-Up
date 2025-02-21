@@ -14,7 +14,7 @@ Cleaning Data
 - Dollar sign is removed and the data in all price columns are converted to float.
 
 Splitting Data
-- Splits the data into training and testing sets, and scales it. It uses the first 80% of the data to test and the remaining 20% to test. 
+- Splits the data into training and testing sets, and scales it. Uses the first 80% of the data to test and the remaining 20% to test. 
 Training the Model
 - Model is trained using support vector regression used to predict numerical values.
 Predicting & Plotting
