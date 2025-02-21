@@ -5,4 +5,14 @@
 - Uses regression to predict future values for stock prices
 - Predicts and plots future stock prices
 
+## Our SVM Model cleans data by reversing/converting the data in rows & columns to put it in order and optimize it for data analysis.
+Splitting Data
+- Next, it splits the data into training and testing sets, and scales it.
+Training the Model
+- 
+Predicting & Plotting
+- The model makes predictions based on the testing data, and plots the predicted values vs. the actual values to display the accuracy of the model on a graph.
+Evaluation
+- Next, we evaluate the data using several metrics (mean absolute error, mean squared error, mean error, coefficient of determination).
+
 ## Results of testing the SVM Model:
