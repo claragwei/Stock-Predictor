@@ -100,7 +100,7 @@ rmse = np.sqrt(mse)
 #Determines the r^2 score, or coefficient of determination. The closer to 1.0, the more accurate the model
 accuracy = svm_model.score(x_test, y_test)
 
-#Prints model evaluation
+#Prints model evaluation details
 print('Mean absolute error:', mae)
 print('Mean squared error:', mse)
 print('Model accuracy score:', accuracy)
