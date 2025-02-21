@@ -1,4 +1,5 @@
-# SVM Model Write-Up
+#SVM Model Write-Up
+##SVM Model Description
 - Uses support vectors to identify patterns in data and make predictions based off it
 - Uses boundaries by finding the best decision boundary between groups of data
 - Maximizes margin between boundary and support vectors (data points closest to decision boundary)
@@ -6,13 +7,13 @@
 - Uses regression to predict future values for stock prices
 - We chose the regression model because it was more ideal for predicting future data, as opposed to classification which was more ideal for grouping/categorizing data
 
+##Steps
 Cleaning Data
 - Model cleans data by reversing/converting the data in rows & columns to put it in order and optimize it for data analysis.
 - Rows are reversed to put dates in order.
 - "Date" column is converted to a datetime object to allow for time-based operations.
 - Columns are categorized based on appropriate descriptions (volume, opening price (open), closing price (close/last), high, low).
 - Dollar sign is removed and the data in all price columns are converted to float.
-
 Splitting Data
 - Splits the data into training and testing sets, and scales it. Uses the first 80% of the data to test and the remaining 20% to test. 
 Training the Model
@@ -22,5 +23,7 @@ Predicting & Plotting
 Evaluation
 - Evaluates the accuracy of the model's predictions using several metrics (mean absolute error, mean squared error, mean error, coefficient of determination).
 
-## Results of testing the SVM Model:
+##Real-World Application
+
+##Results of testing the SVM Model
 
