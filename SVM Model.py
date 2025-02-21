@@ -72,14 +72,6 @@ svm_model.fit(x_train_scaled, y_train) #model learns from the training data and 
 #Make Predictions
 y_pred = svm_model.predict(x_test_scaled)
 
-#Evaluate the model using error metrics
-#Mean Absolute Error
-mae = mean_absolute_error(y_test, y_pred)
-#Mean Squared Error
-mse = mean_squared_error(y_test, y_pred)
-#Root Mean Squared Error
-rmse = np.sqrt(mse)
-
 #Plot it
 #plot the predicted values vs the actual values to see accuracy
 plt.figure(figsize=(10,5))
@@ -95,6 +87,14 @@ plt.yticks(fontsize=10)
 plt.tight_layout() #prevent labels from overlapping
 plt.legend()
 plt.show()
+
+#Evaluate the model using error metrics
+#Mean Absolute Error
+mae = mean_absolute_error(y_test, y_pred)
+#Mean Squared Error
+mse = mean_squared_error(y_test, y_pred)
+#Root Mean Squared Error
+rmse = np.sqrt(mse)
 
 #Test the model for accuracy (regression)
 #Determines the r^2 score, or coefficient of determination. The closer to 1.0, the more accurate the model
