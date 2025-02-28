@@ -10,10 +10,27 @@ General set up:
 
 3. Create training and test sets
 
-4. Create initial ML model -- Time Series
+4. Create initial ML model -- in groups of 2
 - LSTM 
 - Random Forest
-- 
+- SVM
 
-5. 
+5. New group of 2, familiarize each other with your ML model and get it running on your machine
+
+6. Model evaluation: validation / testing / plotting / comparison with each other and actual stock prices
+- Calculate RMSE
+- Best hyperparameters 
+- Plot confusion matrix
+- Figure out how to prevent overfitting of model
+
+7. Write functions to predict future stock prices for each model
+- For each model, choose best model and predict the next 10 days
+- Calculate accuracy
+- Plot actual vs predicted prices
+
+8. Choose best model(s)
+
+9. Write report
+
+10. Create presentation, practice, present!
  
