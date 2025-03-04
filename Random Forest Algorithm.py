@@ -124,15 +124,26 @@ y_pred = rf_model.predict(X_test)
 
 # Evaluate model performance
 mae = mean_absolute_error(y_test, y_pred)
+rmse = np.sqrt(mean_squared_error(y_test, y_pred))
 print(f'Mean Absolute Error: {mae:.2f}')
+print(f'Root Mean Squared Error: {rmse:.2f}')
 
+# Number of future days to predict
+future_days = 30  
 
-# Plot actual vs predicted prices
+# Start with the last known data point
+future_inputs = df[features].iloc[-1].values.reshape(1, -1)
+
+# Extend x-axis for future days
+future_x = np.arange(len(y_test), len(y_test) + future_days)
+
+# Plot actual vs predicted prices with future predictions
 plt.figure(figsize=(10, 5))
-plt.plot(y_test.values, label='Actual Prices', color='blue')
-plt.plot(y_pred, label='Predicted Prices', color='red', linestyle='dashed')
+plt.plot(range(len(y_test)), y_test.values, label='Actual Prices', color='blue')
+plt.plot(range(len(y_test)), y_pred, label='Predicted Prices', color='red', linestyle='dashed')
+plt.plot(future_x, future_predictions, label='Future Predicted Prices', color='green', linestyle='dotted')
 plt.xlabel('Days')
 plt.ylabel('Stock Price ($)')
-plt.title('Random Forest Stock Price Prediction')
+plt.title('Random Forest Stock Price Prediction with Future Forecast')
 plt.legend()
 plt.show()
