@@ -15,8 +15,7 @@ df.shape()
 df.describe()
 df.info()
 
-#Clean data
-
+#Cleaning data
 #Reverse rows so dates are in order
 df_reversed = df.iloc[::-1]
 
@@ -36,3 +35,53 @@ price_columns = ["Open", "High", "Low", "Close/Last"]
 
 #Remove dollar sign and convert to float
 df_reversed[price_columns] = df_reversed[price_columns].replace(r'\$', '', regex=True).astype(float)
+
+#Split data into training and testing sets
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
+
+#Create the XGBoost model
+xgb_model = XGBRegressor(objective="reg:squarederror")
+
+#Define and tune hyperparameters
+param_grid = {
+    'num_estimators': [100, 200, 300] #number of decision trees in model (larger = better learning/more overfitting risk)
+    'learning_rate': [0.01, 0.01, 0.1] #rate at which weights are updated (larger = faster/more overfitting risk)
+    'max_depth': [3, 5, 7] #maximum depth of trees in model (larger = more complex/more overfitting risk)
+}
+
+#Find optimal hyperparameters using GridSearchCV
+grid_search = GridSearchCV(xgb_model, param_grid, cv=3, scoring='accuracy')
+grid_search.fit(x_train, y_train)
+
+#Make predictions using optimal hyperparameters
+best_model = grid_search.best_estimator_
+y_pred = best_model.predict(x_test)
+
+#Plot predicted values vs. actual values
+plt.figure(figsize=(10,5))
+plt.plot( x_test.index, y_test, label="Actual Prices", color='blue', linewidth=2)
+plt.plot( x_test.index, y_pred, label="Predicted Prices", color='red', linestyle="dashed")
+plt.xlabel("Date")
+plt.ylabel("Stock Price")
+plt.title("XGBoost for Stock Price Prediction")
+
+#Evaluate the model using error metrics and accuracy
+#Mean Absolute Error
+mae = mean_absolute_error(y_test, y_pred)
+#Mean Squared Error
+mse = mean_squared_error(y_test, y_pred)
+#Root Mean Squared Error
+rmse = np.sqrt(mse)
+
+#Test the model for accuracy
+#Determines the r^2 score, or coefficient of determination. The closer to 1.0, the more accurate the model
+accuracy = best_model.score
+
+#Prints optimal set of hyperparameters
+print('Optimal set of hyperparameters: ', grid_search.best_params_)
+
+#Prints model evaluation details
+print('Mean absolute error: ', mae)
+print('Mean squared error: ', mse)
+print('Root mean squared error: ', rmse)
+print('Model accuracy score: ', accuracy)
