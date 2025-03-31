@@ -30,14 +30,25 @@ df_reversed['Date'] = pd.to_datetime(df_reversed['Date'])
 df_reversed = df_reversed.set_index('Date')
 df_reversed = df_reversed.sort_values(by='Date')
 
-#Determine the inputs and target output
+#Determine price columns
 price_columns = ["Open", "High", "Low", "Close/Last"]
+
+#Categorize columns
+inputs = ["Volume", "Open", "High", "Low"]
+target = ["Close/Last"]
+x = df[inputs]
+y = df[target]
 
 #Remove dollar sign and convert to float
 df_reversed[price_columns] = df_reversed[price_columns].replace(r'\$', '', regex=True).astype(float)
 
 #Split data into training and testing sets
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
+
+#Scale data
+scaler = MinMaxScaler()
+x_train = scaler.fit_transform(x_train)
+x_test = scaler.transform(x_test)
 
 #Create the XGBoost model
 xgb_model = XGBRegressor(objective="reg:squarederror")
