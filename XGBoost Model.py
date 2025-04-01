@@ -38,6 +38,7 @@ inputs = ["Volume", "Open", "High", "Low"]
 target = ["Close/Last"]
 x = df[inputs]
 y = df[target]
+y = y.values.ravel() #Flatten y (numpy array) into 1-D array
 
 #Remove dollar sign and convert to float
 df_reversed[price_columns] = df_reversed[price_columns].replace(r'\$', '', regex=True).astype(float)
