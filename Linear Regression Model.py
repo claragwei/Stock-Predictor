@@ -41,7 +41,7 @@ normalized_close = scaler.fit_transform(close)
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
 
 #Create the Linear Regression model
-lg_model = LinearRegression().fit(x_train, y_Train)
+lg_model = LinearRegression().fit(x_train, y_train)
 
 #Make predictions
 y_pred = lg_model.predict(x_test)
