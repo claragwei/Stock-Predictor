@@ -75,6 +75,11 @@ plt.plot( x_test.index, y_pred, label="Predicted Prices", color='red', linestyle
 plt.xlabel("Date")
 plt.ylabel("Stock Price")
 plt.title("XGBoost for Stock Price Prediction")
+plt.xticks(rotation=45, ha='right', fontsize=10)
+plt.yticks(fontsize=10)
+plt.tight_layout()
+plt.legend()
+plt.show()
 
 #Evaluate the model using error metrics and accuracy
 #Mean Absolute Error
