@@ -57,7 +57,7 @@ xgb_model = XGBRegressor(objective="reg:squarederror")
 #Define and tune hyperparameters
 param_grid = {
     'n_estimators': [100, 200, 300] #number of decision trees in model (larger = better learning/more overfitting risk)
-    'learning_rate': [0.01, 0.01, 0.1] #rate at which weights are updated (larger = faster/more overfitting risk)
+    'learning_rate': [0.001, 0.01, 0.1] #rate at which weights are updated (larger = faster/more overfitting risk)
     'max_depth': [3, 5, 7] #maximum depth of trees in model (larger = more complex/more overfitting risk)
 }
 
