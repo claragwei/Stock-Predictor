@@ -1,7 +1,9 @@
 #Import dependencies/libraries
+import os
 import pandas as pd 
 import matplotlib.pyplot as plt
 import numpy as np 
+import seaborn as sb
 
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
@@ -40,16 +42,14 @@ df_reversed[price_columns] = df_reversed[price_columns].replace(r'\$', '', regex
 #Categorize the columns based on what we want
 inputs = ["Volume", "Open", "High", "Low"]
 target = ["Close/Last"]
-x = df_reversed[inputs]
-y = df_reversed[target]
-dates = df_reversed.index
+x = df[inputs]
+y = df[target]
 
 #Error from training model... y needs to be flattened with ravel()
 y = y.values.ravel()
 
 #Make the training and testing sets for machine learning
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, shuffle=False)
-test_dates = dates[x_test.index]  #Get dates for plotting
 
 #Scale the data (this one is small but if for future needs)
 scale = MinMaxScaler()
@@ -71,8 +71,8 @@ y_pred = svm_model.predict(x_test_scaled)
 
 #Plot the predicted values vs the actual values to see accuracy
 plt.figure(figsize=(10,5))
-plt.plot(test_dates, y_test, label="Actual Prices", color='blue', linewidth=2)
-plt.plot(test_dates, y_pred, label="Predicted Prices", color='red', linestyle="dashed")
+plt.plot( x_test.index, y_test, label="Actual Prices", color='blue', linewidth=2)
+plt.plot( x_test.index, y_pred, label="Predicted Prices", color='red', linestyle="dashed")
 plt.xlabel("Date")
 plt.ylabel("Stock Price")
 plt.title("SVM for Amazon Stock Price Prediction")
