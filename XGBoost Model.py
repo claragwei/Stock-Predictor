@@ -94,8 +94,7 @@ mse = mean_squared_error(y_test, y_pred)
 #Root Mean Squared Error
 rmse = np.sqrt(mse)
 
-#Test the model for accuracy
-#Determines the r2 score, or coefficient of determination. The closer to 1.0, the more accurate the model
+#Determines the r^2 score, or coefficient of determination. The closer to 1.0, the more accurate the model
 r2 = best_model.score(x_test, y_test)
 
 #Prints optimal set of hyperparameters
@@ -105,4 +104,4 @@ print('Optimal set of hyperparameters: ', grid_search.best_params_)
 print('Mean absolute error: ', mae)
 print('Mean squared error: ', mse)
 print('Root mean squared error: ', rmse)
-print('Model accuracy score: ', r2)
+print('R² Score: ', r2)
