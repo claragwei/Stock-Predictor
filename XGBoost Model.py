@@ -11,10 +11,10 @@ from xgboost import XGBRegressor
 
 #Read/get data info
 df = pd.read_csv('/Stock-Predictor/amazon.csv')
-print(df.head())
-print(df.shape)
-print(df.describe())
-print(df.info())
+df.head()
+df.shape
+df.describe()
+df.info()
 
 #Cleaning data
 #Reverse rows so dates are in order
